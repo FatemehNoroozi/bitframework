@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Components;
 
 namespace Bit.Client.Web.BlazorUI
 {
-    public partial class BitPivotItem : IDisposable
+    public partial class BitPivotItem
     {
         protected override string RootElementClass => "bit-pvt-itm";
 
-        [CascadingParameter] protected internal BitPivot Pivot { get; set; }
+        //[CascadingParameter] protected internal BitPivot Pivot { get; set; }
+        [CascadingParameter(Name = "Pivot")] protected BitPivot? ParentPivot { get; set; }
 
         /// <summary>
         /// The content of the pivot item header, It can be Any custom tag or a text
@@ -55,33 +56,42 @@ namespace Bit.Client.Web.BlazorUI
         [Parameter]
         public string ItemKey { get; set; }
 
-        protected override Task OnInitializedAsync()
-        {
-            if (Pivot is not null)
-            {
-                Pivot.RegisterOption(this);
-            }
+        
 
-            return base.OnInitializedAsync();
+        //protected override Task OnInitializedAsync()
+        //{
+        //    if (ParentPivot is not null)
+        //    {
+        //        ParentPivot.RegisterOption(this);
+        //    }
+
+        //    return base.OnInitializedAsync();
+        //}
+
+        //protected override void OnComponentVisibilityChanged(ComponentVisibility visibility)
+        //{
+        //    //ParentPivot.NotifyStateChanged();
+
+        //    if (ParentPivot.SelectedItem == this)
+
+        //    {
+        //        //Todo:  
+        //        ParentPivot.SelectedKey = null;
+        //    }
+
+        //    base.OnComponentVisibilityChanged(visibility);
+        //}
+
+        private void HandleButtonClick()
+        {
+            ParentPivot?.SelectItem(this);
         }
 
-        protected override void OnComponentVisibilityChanged(ComponentVisibility visibility)
-        {
-            Pivot.NotifyStateChanged();
+        //public void Dispose()
+        //{
+        //    if (ParentPivot is null) return;
 
-            if (Pivot.Items[Pivot.SelectedKey] == this)
-            {
-                Pivot.SelectedKey = Pivot.Items.First().Key;
-            }
-
-            base.OnComponentVisibilityChanged(visibility);
-        }
-
-        public void Dispose()
-        {
-            if (Pivot is null) return;
-
-            Pivot.UnregisterOption(this);
-        }
+        //    ParentPivot.UnregisterOption(this);
+        //}
     }
 }

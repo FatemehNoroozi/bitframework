@@ -1,81 +1,100 @@
 ﻿.bit-pvt-fluent {
-    & > div:nth-child(1) {
+    > div {
+        font-size: rem(14px);
+        font-weight: 400;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        position: relative;
         white-space: nowrap;
 
-        div {
-            outline: transparent;
-            position: relative;
-            box-sizing: border-box;
-            border: 0px;
-            display: inline-block;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            padding: 0px 8px;
-            border-radius: 0px;
-            height: 44px;
-            line-height: 44px;
-            margin-right: 8px;
-            user-select: none;
+        &:first-child {
+            button {
+                color: #323130;
+                background-color: transparent;
+                outline: transparent;
+                position: relative;
+                box-sizing: border-box;
+                border: 0;
+                display: inline-block;
+                text-decoration: none;
+                text-align: center;
+                cursor: pointer;
+                padding: 0 rem(8px);
+                border-radius: 0;
+                height: rem(44px);
+                line-height: rem(44px);
+                margin-right: rem(8px);
+                user-select: none;
 
-            i {
-                margin-right: 5px;
+                > span {
+                    display: flex;
+                    height: 100%;
+                    flex-wrap: nowrap;
+                    justify-content: flex-start;
+                    font-size: rem(16px);
+                    align-items: center;
+                }
+
+                &:hover {
+                    background-color: $CyanBlue10;
+                    color: $White;
+                    cursor: pointer;
+                }
             }
         }
-    }
-
-    & > div:nth-child(2) {
-        font-size: 14px;
-        font-weight: 600;
-        color: rgb(50, 49, 48);
-        box-sizing: border-box;
-        box-shadow: none;
-        margin: 10px 0px 0px;
-        display: block;
-        padding: 5px 0px;
-        overflow-wrap: break-word;
     }
 }
 
 .bit-pvt-links-fluent {
-    & > div:nth-child(1) {
-        div {
-            color: $Grey160;
-            background-color: transparent;
+    > div {
+        &:first-child {
+            button {
+                color: $Grey160;
+                background-color: transparent;
 
-            i {
-                margin-right: 5px;
-            }
+                > span * {
+                    margin-left: 4px;
 
-            &:hover {
-                color: $Grey200;
-                background-color: $Grey20;
-                cursor: pointer;
-            }
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                }
 
-            &::before {
-                background-color: $CyanBlue10;
-                bottom: 0px;
-                content: "";
-                height: 2px;
-                left: 8px;
-                position: absolute;
-                right: 8px;
-                visibility: hidden;
-            }
-        }
+                &:hover {
+                    color: $Grey200;
+                    background-color: $Grey20;
+                    cursor: pointer;
+                }
 
-        .selected-item {
-
-            &::before {
-                visibility: visible;
-                transition: 0.2s;
-            }
-
-            &:hover {
                 &::before {
-                    right: 0;
-                    left: 0;
+                    background-color: $CyanBlue10;
+                    bottom: 0px;
+                    content: "";
+                    height: 2px;
+                    left: 8px;
+                    position: absolute;
+                    right: 8px;
+                    visibility: hidden;
+                }
+            }
+
+            .selected-item {
+                > span {
+                    font-weight: 600;
+                }
+
+                &::before {
+                    visibility: visible;
+                    transition: 0.2s;
+                }
+
+                &:hover {
+                    &::before {
+                        right: 0;
+                        left: 0;
+                    }
                 }
             }
         }
