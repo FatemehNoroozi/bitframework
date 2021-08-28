@@ -9,7 +9,6 @@ namespace Bit.Client.Web.BlazorUI
 {
     public partial class BitPivotItem
     {
-        protected override string RootElementClass => "bit-pvt-itm";
 
         //[CascadingParameter] protected internal BitPivot Pivot { get; set; }
         [CascadingParameter(Name = "Pivot")] protected BitPivot? ParentPivot { get; set; }
@@ -56,36 +55,41 @@ namespace Bit.Client.Web.BlazorUI
         [Parameter]
         public string ItemKey { get; set; }
 
-        
+        private bool isSelected;
+        public bool IsSelected
+        {
 
-        //protected override Task OnInitializedAsync()
-        //{
-        //    if (ParentPivot is not null)
-        //    {
-        //        ParentPivot.RegisterOption(this);
-        //    }
+            get => isSelected;
+            set
+            {
+                isSelected = value;
+                ClassBuilder.Reset();
+            }
+        }
 
-        //    return base.OnInitializedAsync();
-        //}
+        internal void SelectedItemChanged(BitPivotItem item)
+        {
+            IsSelected = item == this;
+        }
+        protected override void OnInitialized()
+        {
+            ParentPivot?.SelectInitialItem(this);
+            base.OnInitialized();
+        }
 
-        //protected override void OnComponentVisibilityChanged(ComponentVisibility visibility)
-        //{
-        //    //ParentPivot.NotifyStateChanged();
-
-        //    if (ParentPivot.SelectedItem == this)
-
-        //    {
-        //        //Todo:  
-        //        ParentPivot.SelectedKey = null;
-        //    }
-
-        //    base.OnComponentVisibilityChanged(visibility);
-        //}
+        protected override string RootElementClass => "bit-pvt-itm";
+        protected override void RegisterComponentClasses()
+        {
+            ClassBuilder.Register(() => IsSelected ? $"{RootElementClass}-Selcted-item-{VisualClassRegistrar()}" : string.Empty);
+        }
 
         private void HandleButtonClick()
         {
-            ParentPivot?.SelectItem(this);
+            if (IsEnabled is false) return;
+            ParentPivot?.HandleClickItem(this);
         }
+
+
 
         //public void Dispose()
         //{

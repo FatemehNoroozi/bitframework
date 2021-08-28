@@ -48,6 +48,24 @@
 }
 
 .bit-pvt-links-fluent {
+     > .bit-pvt-selected-item-fluent {
+        > span {
+            font-weight: 600;
+        }
+
+        &::before {
+            visibility: visible;
+            transition: 0.2s;
+        }
+
+        &:hover {
+            &::before {
+                right: 0;
+                left: 0;
+            }
+        }
+    }
+
     > div {
         &:first-child {
             button {
@@ -79,24 +97,6 @@
                     visibility: hidden;
                 }
             }
-
-            .selected-item {
-                > span {
-                    font-weight: 600;
-                }
-
-                &::before {
-                    visibility: visible;
-                    transition: 0.2s;
-                }
-
-                &:hover {
-                    &::before {
-                        right: 0;
-                        left: 0;
-                    }
-                }
-            }
         }
     }
 
@@ -114,6 +114,18 @@
 }
 
 .bit-pvt-tabs-fluent {
+    .bit-pvt-selected-item-fluent {
+        background-color: $CyanBlue10;
+        color: $White;
+        font-weight: 400;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $DarkAlt;
+            color: $White;
+        }
+    }
+
     & > div:nth-child(1) {
         div {
             margin-right: 0px;
@@ -123,19 +135,9 @@
                 color: $White;
             }
         }
-
-        .selected-item {
-            background-color: $CyanBlue10;
-            color: $White;
-            font-weight: 400;
-            cursor: pointer;
-
-            &:hover {
-                background-color: $DarkAlt;
-                color: $White;
-            }
-        }
     }
+
+
 
     & > div:nth-child(2) {
     }

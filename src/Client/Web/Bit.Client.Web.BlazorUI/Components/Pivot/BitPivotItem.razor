@@ -1,40 +1,39 @@
 ﻿@namespace Bit.Client.Web.BlazorUI
 @inherits BitComponentBase
 
-@*<button @onclick="() => ItemClicked"
-        class="@(GetItemClass(item.Value))"
-        style="@(GetItemStyle(item.Value))"
-        aria-label="@AriaLabel"
-        aria-selected="@AriaSelected(item.Value)"
-        role="tab">*@
-<button @onclick="HandleButtonClick">
-    <span>
-        @if (@IconName.HasValue())
-        {
-            <span>
-                <i class="bit-icon bit-icon--@(IconName)"></i>
-            </span>
-        }
+<div @ref="RootElement"
+     @attributes="HtmlAttributes"
+     style="@StyleBuilder.Value"
+     class="@ClassBuilder.Value">
+    <button @onclick="HandleButtonClick">
+        <span>
+            @if (@IconName.HasValue())
+            {
+                <span>
+                    <i class="bit-icon bit-icon--@(IconName)"></i>
+                </span>
+            }
 
-        @if (HeaderText.HasValue())
-        {
-            <span>
-                @HeaderText
-            </span>
-        }
+            @if (HeaderText.HasValue())
+            {
+                <span>
+                    @HeaderText
+                </span>
+            }
 
-        @if (ItemCount is not null)
-        {
-            <span>
-                (@ItemCount)
-            </span>
-        }
+            @if (ItemCount is not null)
+            {
+                <span>
+                    (@ItemCount)
+                </span>
+            }
 
-        @if (HeaderContent is not null)
-        {
-            <span>
-                @HeaderContent
-            </span>
-        }
-    </span>
-</button>
+            @if (HeaderContent is not null)
+            {
+                <span>
+                    @HeaderContent
+                </span>
+            }
+        </span>
+    </button>
+</div>

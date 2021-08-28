@@ -131,66 +131,37 @@ namespace Bit.Client.Web.BlazorUI
                                       : string.Empty);
         }
 
-        internal async Task SelectItem(BitPivotItem item)
+        internal async Task HandleClickItem(BitPivotItem item)
+        {
+            SelectItem(item);
+            await OnLinkClick.InvokeAsync(item);
+            
+        }
+
+        private async Task SelectItem(BitPivotItem item)
         {
             if (item.IsEnabled is false) return;
-
-            await OnLinkClick.InvokeAsync(item);
 
             if (SelectedKeyHasBeenSet && SelectedKeyChanged.HasDelegate is false) return;
 
             SelectedKey = item.ItemKey;
 
+            SelectedItem?.SelectedItemChanged(item);
+
             SelectedItem = item;
+
+            SelectedItem?.SelectedItemChanged(item);
+            StateHasChanged();
         }
 
-        //internal void RegisterOption(BitPivotItem item)
-        //{
-        //    if (IsEnabled is false)
-        //    {
-        //        item.IsEnabled = false;
-        //    }
+        internal void SelectInitialItem(BitPivotItem item)
+        {
+            if (SelectedItem == null )
+            {
+                SelectItem(item);
+            }
+        }
 
-        //    if (item.ItemKey is null)
-        //    {
-        //        item.ItemKey = GenerateUniqueKey();
-        //    }
-
-        //    Items.Add(item.ItemKey, item);
-        //    StateHasChanged();
-        //}
-
-        //internal void UnregisterOption(BitPivotItem item)
-        //{
-        //    SelectedItem.Remove(item.ItemKey);
-        //}
-
-        //private string GenerateUniqueKey()
-        //{
-        //    var key = 0;
-
-        //    while (SelectedItem.ItemKey.Contains(key.ToString()))
-        //    {
-        //        key++;
-        //    }
-        //    return key.ToString();
-        //}
-
-        //private string GetItemClass(BitPivotItem item)
-        //{
-        //    return items[SelectedKey] == item ? "selected-item" : string.Empty;
-        //}
-
-        //private string GetItemStyle(BitPivotItem item)
-        //{
-        //    return item.Visibility == ComponentVisibility.Collapsed ? "display:none" : item.Visibility == ComponentVisibility.Hidden ? "visibility:hidden" : string.Empty;
-        //}
-
-        //public string AriaSelected(BitPivotItem item)
-        //{
-        //    return Items[SelectedKey] == item ? "true" : "false";
-        //}
-
-        //internal void NotifyStateChanged() => StateHasChanged();
+       
     }
 }
