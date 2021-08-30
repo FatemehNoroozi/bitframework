@@ -7,141 +7,131 @@
         padding: 0;
         box-sizing: border-box;
         position: relative;
+        color: $CyanBlue10;
         white-space: nowrap;
+    }
+}
 
-        &:first-child {
-            button {
-                color: #323130;
-                background-color: transparent;
-                outline: transparent;
-                position: relative;
-                box-sizing: border-box;
-                border: 0;
-                display: inline-block;
-                text-decoration: none;
-                text-align: center;
-                cursor: pointer;
-                padding: 0 rem(8px);
-                border-radius: 0;
-                height: rem(44px);
-                line-height: rem(44px);
-                margin-right: rem(8px);
-                user-select: none;
+.bit-pvt-itm-fluent {
+    outline: transparent;
+    position: relative;
+    font-size: rem(14px);
+    font-weight: 600;
+    box-sizing: border-box;
+    border: 0;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 rem(8px);
+    border-radius: 0;
+    height: rem(44px);
+    color: rgb(50, 49, 48);
+    background-color: transparent;
+    line-height: rem(44px);
+    margin-right: rem(8px);
+    user-select: none;
+    cursor: pointer;
 
-                > span {
-                    display: flex;
-                    height: 100%;
-                    flex-wrap: nowrap;
-                    justify-content: flex-start;
-                    font-size: rem(16px);
-                    align-items: center;
-                }
+    > span {
+        display: flex;
+        height: 100%;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-items: center;
 
-                &:hover {
-                    background-color: $CyanBlue10;
-                    color: $White;
-                    cursor: pointer;
-                }
+        > * {
+            margin-left: rem(4px);
+
+            &:first-child {
+                margin-left: 0;
             }
         }
+    }
+}
+
+.bit-pvt-itm-selcted-fluent {
+    outline: transparent;
+    position: relative;
+    font-size: rem(14px);
+    font-weight: 600;
+    box-sizing: border-box;
+    border: 0;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 rem(8px);
+    border-radius: 0;
+    height: rem(44px);
+    color: rgb(50, 49, 48);
+    background-color: transparent;
+    line-height: rem(44px);
+    margin-right: rem(8px);
+    user-select: none;
+
+    &:before {
+        background-color: transparent;
+        bottom: 0;
+        content: "";
+        height: rem(2px);
+        left: rem(8px);
+        position: absolute;
+        right: rem(8px);
+        transition: left 0.267s cubic-bezier(0.1, 0.25, 0.75, 0.9) 0s, right 0.267s cubic-bezier(0.1, 0.25, 0.75, 0.9) 0s;
+    }
+
+    &:after {
+        color: transparent;
+        content: attr(data-content);
+        display: block;
+        font-weight: 700;
+        height: rem(1px);
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    span {
+        font-size: rem(16px);
     }
 }
 
 .bit-pvt-links-fluent {
-     > .bit-pvt-selected-item-fluent {
-        > span {
-            font-weight: 600;
+    .bit-pvt-itm-fluent {
+        &:hover {
+            color: #201f1e;
+            background-color: #f3f2f1;
+            cursor: pointer;
         }
+    }
 
-        &::before {
-            visibility: visible;
-            transition: 0.2s;
+    .bit-pvt-itm-selcted-fluent {
+        &:before {
+            background-color: rgb(0, 120, 212);
         }
 
         &:hover {
             &::before {
-                right: 0;
                 left: 0;
+                right: 0;
             }
         }
-    }
-
-    > div {
-        &:first-child {
-            button {
-                color: $Grey160;
-                background-color: transparent;
-
-                > span * {
-                    margin-left: 4px;
-
-                    &:first-child {
-                        margin-left: 0;
-                    }
-                }
-
-                &:hover {
-                    color: $Grey200;
-                    background-color: $Grey20;
-                    cursor: pointer;
-                }
-
-                &::before {
-                    background-color: $CyanBlue10;
-                    bottom: 0px;
-                    content: "";
-                    height: 2px;
-                    left: 8px;
-                    position: absolute;
-                    right: 8px;
-                    visibility: hidden;
-                }
-            }
-        }
-    }
-
-    & > div:nth-child(2) {
-        font-size: 14px;
-        font-weight: 600;
-        color: rgb(50, 49, 48);
-        box-sizing: border-box;
-        box-shadow: none;
-        margin: 10px 0px 0px;
-        display: block;
-        padding: 5px 0px;
-        overflow-wrap: break-word;
     }
 }
 
 .bit-pvt-tabs-fluent {
-    .bit-pvt-selected-item-fluent {
+    .bit-pvt-itm-selcted-fluent {
         background-color: $CyanBlue10;
         color: $White;
         font-weight: 400;
-        cursor: pointer;
-
-        &:hover {
-            background-color: $DarkAlt;
-            color: $White;
-        }
     }
 
-    & > div:nth-child(1) {
-        div {
-            margin-right: 0px;
-
-            &:hover {
-                background-color: $CyanBlue10;
-                color: $White;
-            }
-        }
-    }
-
-
-
-    & > div:nth-child(2) {
+    &:hover {
+        background-color: $DarkAlt;
+        color: $White;
     }
 }
+
 
 .bit-pvt-scroll-fluent {
     & > div:nth-child(1) {
@@ -152,17 +142,17 @@
         }
         /* Track */
         &::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px $Grey90;
-            border-radius: 10px;
-        }
+                box-shadow: inset 0 0 5px $Grey90;
+                border-radius: 10px;
+            }
         /* Handle */
         &::-webkit-scrollbar-thumb {
-            background: $CyanBlue10;
-            border-radius: 10px;
-        }
+                background: $CyanBlue10;
+                border-radius: 10px;
+            }
         /* Handle on hover */
         &::-webkit-scrollbar-thumb:hover {
-            background: $DarkAlt;
+                background: $DarkAlt;
         }
     }
 }
@@ -171,7 +161,7 @@
 .bit-pvt-normal-fluent {
     & > div:nth-child(1) {
         div {
-            font-size: 14px;
+            font-size: rem(14px);
         }
     }
 }
@@ -179,7 +169,7 @@
 .bit-pvt-large-fluent {
     & > div:nth-child(1) {
         div {
-            font-size: 18px;
+            font-size: rem(18px);
         }
     }
 }

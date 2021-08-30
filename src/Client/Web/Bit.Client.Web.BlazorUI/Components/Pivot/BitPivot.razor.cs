@@ -62,7 +62,7 @@ namespace Bit.Client.Web.BlazorUI
         public LinkSize LinkSize
         {
             get => linkSize;
-            set
+            set 
             {
                 linkSize = value;
                 ClassBuilder.Reset();

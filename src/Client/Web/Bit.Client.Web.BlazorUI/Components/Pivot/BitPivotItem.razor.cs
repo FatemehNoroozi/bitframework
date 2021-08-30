@@ -10,7 +10,6 @@ namespace Bit.Client.Web.BlazorUI
     public partial class BitPivotItem
     {
 
-        //[CascadingParameter] protected internal BitPivot Pivot { get; set; }
         [CascadingParameter(Name = "Pivot")] protected BitPivot? ParentPivot { get; set; }
 
         /// <summary>
@@ -80,7 +79,7 @@ namespace Bit.Client.Web.BlazorUI
         protected override string RootElementClass => "bit-pvt-itm";
         protected override void RegisterComponentClasses()
         {
-            ClassBuilder.Register(() => IsSelected ? $"{RootElementClass}-Selcted-item-{VisualClassRegistrar()}" : string.Empty);
+            ClassBuilder.Register(() => IsSelected ? $"{RootElementClass}-selcted-{VisualClassRegistrar()}" : string.Empty);
         }
 
         private void HandleButtonClick()
@@ -88,14 +87,5 @@ namespace Bit.Client.Web.BlazorUI
             if (IsEnabled is false) return;
             ParentPivot?.HandleClickItem(this);
         }
-
-
-
-        //public void Dispose()
-        //{
-        //    if (ParentPivot is null) return;
-
-        //    ParentPivot.UnregisterOption(this);
-        //}
     }
 }
