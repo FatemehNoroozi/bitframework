@@ -1,19 +1,19 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
+using System.Linq;
 
 namespace Bit.Client.Web.BlazorUI
 {
     public partial class BitPivot
     {
-        protected override string RootElementClass => "bit-pvt";
-
         private string? selectedKey;
         private OverflowBehavior overflowBehavior = OverflowBehavior.None;
         private LinkFormat linkFormat = LinkFormat.Links;
         private LinkSize linkSize = LinkSize.Normal;
         private bool SelectedKeyHasBeenSet;
-        private bool hasSetSelectedKey;
+        private BitPivotItem? SelectedItem { get; set; }
+        private List<BitPivotItem> AllItems = new(); 
 
         /// <summary>
         /// Default selected key for the pivot
@@ -91,8 +91,7 @@ namespace Bit.Client.Web.BlazorUI
             set
             {
                 if (value == selectedKey) return;
-                selectedKey = value;
-                _ = SelectedKeyChanged.InvokeAsync(value);
+                SelectItemByKey(value);
             }
         }
 
@@ -102,12 +101,23 @@ namespace Bit.Client.Web.BlazorUI
         [Parameter]
         public EventCallback<string> SelectedKeyChanged { get; set; }
 
-        internal BitPivotItem SelectedItem { get; set; }
+        internal async Task SelectItem(BitPivotItem item)
+        {
+            if (SelectedKeyHasBeenSet && SelectedKeyChanged.HasDelegate is false) return;
 
-        protected override void OnInitialized()
+            SelectedItem?.SetState(false);
+            item.SetState(true);
+
+            SelectedItem = item;
+            selectedKey = item.ItemKey;
+
+            await OnLinkClick.InvokeAsync(item);
+        }
+
+        protected override Task OnInitializedAsync()
         {
             selectedKey = selectedKey ?? DefaultSelectedKey;
-            base.OnInitialized();
+            return base.OnInitializedAsync(); 
         }
 
         protected override Task OnParametersSetAsync()
@@ -115,6 +125,7 @@ namespace Bit.Client.Web.BlazorUI
             return base.OnParametersSetAsync();
         }
 
+        protected override string RootElementClass => "bit-pvt";
         protected override void RegisterComponentClasses()
         {
             ClassBuilder.Register(() => LinkSize == LinkSize.Large ? $"{RootElementClass}-large-{VisualClassRegistrar()}"
@@ -131,37 +142,37 @@ namespace Bit.Client.Web.BlazorUI
                                       : string.Empty);
         }
 
-        internal async Task HandleClickItem(BitPivotItem item)
+        internal void RegisterItem(BitPivotItem item)
         {
-            SelectItem(item);
-            await OnLinkClick.InvokeAsync(item);
-            
-        }
-
-        private async Task SelectItem(BitPivotItem item)
-        {
-            if (item.IsEnabled is false) return;
-
-            if (SelectedKeyHasBeenSet && SelectedKeyChanged.HasDelegate is false) return;
-
-            SelectedKey = item.ItemKey;
-
-            SelectedItem?.SelectedItemChanged(item);
-
-            SelectedItem = item;
-
-            SelectedItem?.SelectedItemChanged(item);
-            StateHasChanged();
-        }
-
-        internal void SelectInitialItem(BitPivotItem item)
-        {
-            if (SelectedItem == null )
+            if (IsEnabled is false)
             {
-                SelectItem(item);
+                item.IsEnabled = false;
             }
+
+            if (SelectedKey == item.ItemKey)
+            {
+                item.SetState(true);
+                SelectedItem = item;
+            }
+            AllItems.Add(item);
         }
 
-       
+        internal void UnregisterItem(BitPivotItem item)
+        {
+            AllItems.Remove(item);
+        }
+
+        private void SelectItemByKey(string? itemKey)
+        {
+            var newItem = AllItems.FirstOrDefault(i => i.ItemKey == itemKey);
+
+            if (newItem == null || newItem == SelectedItem || newItem.IsEnabled is false)
+            {
+                _ = SelectedKeyChanged.InvokeAsync(selectedKey);
+                return;
+            }
+
+            _ = SelectItem(newItem);
+        }
     }
 }

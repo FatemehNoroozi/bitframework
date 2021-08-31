@@ -9,6 +9,7 @@ namespace Bit.Client.Web.BlazorUI
 {
     public partial class BitPivotItem
     {
+        private bool IsSelectedHasBeenSet;
 
         [CascadingParameter(Name = "Pivot")] protected BitPivot? ParentPivot { get; set; }
 
@@ -22,7 +23,7 @@ namespace Bit.Client.Web.BlazorUI
         /// The content of the pivot item, It can be Any custom tag or a text 
         /// </summary>
         [Parameter]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment? ChildContent { get; set; }
 
         /// <summary>
         /// The content of the pivot item can be Any custom tag or a text, If HeaderContent provided value of this parameter show, otherwise use ChildContent
@@ -54,26 +55,34 @@ namespace Bit.Client.Web.BlazorUI
         [Parameter]
         public string ItemKey { get; set; }
 
+        [Parameter] public EventCallback<bool> IsSelectedChanged { get; set; }
+
         private bool isSelected;
         public bool IsSelected
         {
-
             get => isSelected;
             set
             {
+                if (value == isSelected) return;
                 isSelected = value;
                 ClassBuilder.Reset();
+                _=IsSelectedChanged.InvokeAsync(value);
             }
         }
 
-        internal void SelectedItemChanged(BitPivotItem item)
+        internal void SetState(bool status)
         {
-            IsSelected = item == this;
+            IsSelected = status;
+            StateHasChanged();
         }
-        protected override void OnInitialized()
+
+        protected override Task OnInitializedAsync()
         {
-            ParentPivot?.SelectInitialItem(this);
-            base.OnInitialized();
+            if (ParentPivot is not null)
+            {
+                ParentPivot.RegisterItem(this);
+            }
+            return base.OnInitializedAsync();
         }
 
         protected override string RootElementClass => "bit-pvt-itm";
@@ -85,7 +94,7 @@ namespace Bit.Client.Web.BlazorUI
         private void HandleButtonClick()
         {
             if (IsEnabled is false) return;
-            ParentPivot?.HandleClickItem(this);
+            ParentPivot?.SelectItem(this);
         }
     }
 }
